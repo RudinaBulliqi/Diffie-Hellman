@@ -15,7 +15,7 @@ This project implements a secure client-server chat application using Java with 
 ## Cryptographic Components
 
 1. **Key Exchange**: Diffie-Hellman (2048-bit)
-2. **Symmetric Encryption**: AES-128 in ECB mode (Note: ECB has known weaknesses)
+2. **Symmetric Encryption**: AES-128
 3. **Digital Signatures**: RSA (2048-bit) with SHA-256
 4. **Key Derivation**: First 16 bytes of DH shared secret used as AES key
 
