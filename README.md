@@ -34,7 +34,7 @@ This project implements a secure client-server chat application using Java with 
    ```bash
    javac Client.java
    java Client
-3. **Now you can text**
+3. **Now you can text in the console  of Server or Client**
 ## Usage
 1. The server will listen on port 5000
 
