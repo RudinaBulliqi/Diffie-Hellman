@@ -36,18 +36,19 @@ This project implements a secure client-server chat application using Java with 
    java Client
 3. **Now you can text**
 ## Usage
-The server will listen on port 5000
-The client connects to localhost:5000
+1. The server will listen on port 5000
 
-After successful connection and key exchange:
+2. The client connects to localhost:5000
 
-Server sends a welcome message with RSA signature
+3. After successful connection and key exchange:
 
-Client verifies the signature
+4. Server sends a welcome message with RSA signature
 
-Secure messaging begins
+5. Client verifies the signature
 
-Type messages in the console and press Enter to send
+6. Secure messaging begins
 
-Type "exit" to terminate the session cleanly
+7. Type messages in the console and press Enter to send
+
+8. Type "**exit**" to terminate the session cleanly.
    
