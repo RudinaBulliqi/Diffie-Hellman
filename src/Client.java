@@ -51,4 +51,17 @@ public class Client {
             }
         }
     }
+
+    private static boolean verifySignature(byte[] data, byte[] sigBytes, PublicKey pubKey) throws Exception {
+        Signature sig = Signature.getInstance("SHA256withRSA");
+        sig.initVerify(pubKey);
+        sig.update(data);
+        return sig.verify(sigBytes);
+    }
+
+    private static byte[] encryptMessage(String message) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, aesKey);
+        return cipher.doFinal(message.getBytes());
+    }
 }
