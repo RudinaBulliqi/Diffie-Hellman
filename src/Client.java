@@ -15,6 +15,23 @@ public class Client {
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
+        System.out.println("Performing Diffie-Hellman key exchange...");
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance("DH");
+        kpg.initialize(2048);
+        KeyPair dhKeyPair = kpg.generateKeyPair();
+        PrivateKey privateKey = dhKeyPair.getPrivate();
+        PublicKey publicKey = dhKeyPair.getPublic();
+
+        PublicKey serverPubKey = (PublicKey) in.readObject();
+        out.writeObject(publicKey);
+
+        KeyAgreement ka = KeyAgreement.getInstance("DH");
+        ka.init(privateKey);
+        ka.doPhase(serverPubKey, true);
+        byte[] sharedSecret = ka.generateSecret();
+
+        aesKey = new SecretKeySpec(sharedSecret, 0, 16, "AES");
+        System.out.println("Shared secret established.");
         // === Thread to receive signed messages from server ===
         Thread listener = new Thread(() -> {
             try {
