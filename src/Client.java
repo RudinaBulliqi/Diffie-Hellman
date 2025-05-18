@@ -9,6 +9,12 @@ public class Client {
     private static SecretKey aesKey;
 
     public static void main(String[] args) throws Exception {
+     
+        Socket socket = new Socket("localhost", 5000);
+        System.out.println("Connected to server.");
+        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
         // === Thread to receive signed messages from server ===
         Thread listener = new Thread(() -> {
             try {
