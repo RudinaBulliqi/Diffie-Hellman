@@ -49,5 +49,59 @@ public class Server {
         out.writeObject(welcomeMessage);
         out.writeObject(signature);
 
+        // === Thread to receive messages from client ===
+        Thread receiver = new Thread(() -> {
+            try {
+                while (true) {
+                    byte[] encrypted = (byte[]) in.readObject();
+                    String decrypted = decryptMessage(encrypted);
+                    if (decrypted.equalsIgnoreCase("exit")) {
+                        System.out.println("Client has ended the session.");
+                        socket.close();
+                        System.exit(0);
+                    }
+                    System.out.print("\n[Client]: " + decrypted + "\nYou: ");
+                }
+            } catch (Exception e) {
+                System.out.println("Client disconnected.");
+                System.exit(0);
+            }
+        });
+        receiver.start();
+
+// === Main thread: send signed messages ===
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("You: ");
+            String message = scanner.nextLine();
+            byte[] sig = signMessage(message.getBytes(), rsaKeyPair.getPrivate());
+            out.writeObject(message);
+            out.writeObject(sig);
+
+            if (message.equalsIgnoreCase("exit")) {
+                System.out.println("You have ended the session.");
+                socket.close();
+                System.exit(0);
+            }
+        }
+
+    }
+    private static KeyPair generateRSAKeyPair() throws Exception {
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+        keyGen.initialize(2048);
+        return keyGen.generateKeyPair();
+    }
+
+    private static byte[] signMessage(byte[] message, PrivateKey privateKey) throws Exception {
+        Signature signature = Signature.getInstance("SHA256withRSA");
+        signature.initSign(privateKey);
+        signature.update(message);
+        return signature.sign();
+    }
+
+    private static String decryptMessage(byte[] encrypted) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, aesKey);
+        return new String(cipher.doFinal(encrypted));
     }
 }
