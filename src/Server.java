@@ -86,6 +86,7 @@ public class Server {
         }
 
     }
+
     private static KeyPair generateRSAKeyPair() throws Exception {
         KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
         keyGen.initialize(2048);

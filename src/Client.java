@@ -9,7 +9,7 @@ public class Client {
     private static SecretKey aesKey;
 
     public static void main(String[] args) throws Exception {
-     
+
         Socket socket = new Socket("localhost", 5000);
         System.out.println("Connected to server.");
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -42,10 +42,10 @@ public class Client {
         if (!valid) {
             System.out.println("Signature invalid. Terminating.");
             socket.close();
-        return;
-}
-System.out.println("Signature valid. Trusted communication established.");
-System.out.println("[Server]: " + message);
+            return;
+        }
+        System.out.println("Signature valid. Trusted communication established.");
+        System.out.println("[Server]: " + message);
 
         // === Thread to receive signed messages from server ===
         Thread listener = new Thread(() -> {
