@@ -40,9 +40,14 @@ The server will listen on port 5000
 The client connects to localhost:5000
 
 After successful connection and key exchange:
+
 Server sends a welcome message with RSA signature
+
 Client verifies the signature
+
 Secure messaging begins
+
 Type messages in the console and press Enter to send
+
 Type "exit" to terminate the session cleanly
    
